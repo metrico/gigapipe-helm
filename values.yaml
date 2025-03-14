@@ -4,7 +4,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 image:
-  repository: qxip/qryn
+  repository: ghcr.io/metrico/gigapipe
   tag: ""
 
 # imagePullSecrets: 
@@ -106,10 +106,10 @@ basicAuthPass: ""
   # "test:$apr1$vbY9pP6j$GruYGP/AoYR1RPQN8KshE."
 env:
   CLICKHOUSE_SERVER: "localhost"
-  CLICKHOUSE_PORT: "8123"
+  CLICKHOUSE_PORT: "9000"
   CLICKHOUSE_DB: "qryn"
   CLICKHOUSE_AUTH: "default:"
-  # CLICKHOUSE_PROTO: "http"
+  CLICKHOUSE_PROTO: "tcp"
   # CLICKHOUSE_TIMEFIELD: "record_datetime"
   # CLUSTER_NAME: ""
   # BULK_MAXAGE: "2000"
