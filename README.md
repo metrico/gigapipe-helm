@@ -4,7 +4,7 @@
 </a>
 
 ## Overview
-This Helm chart provides Kubernetes deployment configurations for [qryn](https://github.com/metrico/qryn) a polyglot, lighweight, multi-standard observability framework for Logs, Metrics and Traces, designed to be drop-in compatible with Loki, Prometheus, Tempo and Opentelemetry.
+This Helm chart provides Kubernetes deployment configurations for [gigapipe](https://gigapipe.com) a polyglot, lighweight, multi-standard observability framework for Logs, Metrics and Traces, designed to be drop-in compatible with Loki, Prometheus, Tempo and Opentelemetry.
 
 ---
 
@@ -37,7 +37,7 @@ helm repo update
 See [helm repository](https://helm.sh/docs/helm/helm_repo/) for command documentation.
 
 Install Chart
-To deploy [qryn](https://github.com/metrico/qryn) using this Helm chart, use the following command:
+To deploy [gigapipe](https://github.com/metrico/qryn) using this Helm chart, use the following command:
 
 ```bash
 helm repo add qryn-helm https://metrico.github.io/qryn-helm/
@@ -62,8 +62,8 @@ Feel free to modify the configurations based on your requirements and environmen
 ### Image Parameters
 | **Key**                       | **Default**            | **Description**                                        |
 |-------------------------------|------------------------|------------------------------------------------------|
-| `image.repository`            | `qxip/qryn`            | Qryn image repository.                               |
-| `image.tag`                   | `""`                   | Qryn image tag (default: latest).                    |
+| `image.repository`            | `ghcr.io/metrico/gigapipe` | Gigapipe image repository.                               |
+| `image.tag`                   | `""`                   | Gigapipe image tag (default: latest).                    |
 | `imagePullSecrets`            | `[]`                   | Secrets for pulling images.                          |
 | `imageCredentials`            | `{}`                   | Custom image registry credentials.                   |
 
@@ -108,7 +108,8 @@ Feel free to modify the configurations based on your requirements and environmen
 | **Key**                       | **Default**            | **Description**                                        |
 |-------------------------------|------------------------|------------------------------------------------------|
 | `env.CLICKHOUSE_SERVER`       | `localhost`            | ClickHouse server address.                           |
-| `env.CLICKHOUSE_PORT`         | `8123`                 | ClickHouse server port.                              |
+| `env.CLICKHOUSE_PORT`         | `9000`                 | ClickHouse server port.                              |
+| `env.CLICKHOUSE_PROTO`        | `tcp`                  | ClickHouse server protocol (tcp/tls).                |
 | `env.CLICKHOUSE_DB`           | `qryn`                 | ClickHouse database name.                            |
 | `env.CLICKHOUSE_AUTH`         | `default:`             | ClickHouse authentication credentials.               |
 
@@ -164,7 +165,7 @@ Feel free to modify the configurations based on your requirements and environmen
 | ADVANCED_SAMPLES_ORDERING       | timestamp_ns   | Specify the 'ORDER BY' your samples table should use (for multiple use comma-separated list fingerprint,timestamp_ns)|
 
 ## ENV Settings
-For more information about qryn environment variables, visit [qryn Environments](https://qryn.metrico.in/#/env).
+For more information about Gigapipe environment variables, visit [qryn Environments](https://qryn.metrico.in/#/env).
 
 
 
