@@ -5,6 +5,10 @@ name: gigapipe
 type: application
 version: 0.2.0
 
+home: https://gigapipe.com/about.html
+sources:
+  - https://github.com/metrico/qryn-helm
+
 maintainers:
   - name: Lorenzo Mangani 
     email: lorenzo.mangani@gmail.com
@@ -12,5 +16,3 @@ maintainers:
   - name: raven
     email: r2w5x6@protonmail.com
     url: https://github.com/mk-raven
-
-
