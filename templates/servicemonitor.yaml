@@ -3,9 +3,9 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ include "qryn-helm.fullname" . }}
+  name: {{ include "gigapipe.fullname" . }}
   labels:
-    {{- include "qryn-helm.labels" . | nindent 4 }}
+    {{- include "gigapipe.labels" . | nindent 4 }}
     {{- with .Values.serviceMonitor.annotations }}
   annotations: {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -38,6 +38,6 @@ spec:
       - {{ $.Release.Namespace | quote }}
   selector:
     matchLabels:
-        {{- include "qryn-helm.selectorLabels" . | nindent 6 }}
+        {{- include "gigapipe.selectorLabels" . | nindent 6 }}
 {{- end }}
 {{- end }}

@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "qryn-helm.fullname" . }}
+  name: {{ include "gigapipe.fullname" . }}
   labels:
-  {{- include "qryn-helm.labels" . | nindent 4 }}
+  {{- include "gigapipe.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.type }}
   selector:
-  {{- include "qryn-helm.selectorLabels" . | nindent 4 }}
+  {{- include "gigapipe.selectorLabels" . | nindent 4 }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: http

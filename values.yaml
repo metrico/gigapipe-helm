@@ -4,8 +4,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 image:
-  repository: qxip/qryn
-  tag: ""
+  repository: ghcr.io/metrico/gigapipe
+  tag: v4.0.0-beta
 
 # imagePullSecrets: 
 #   nameOverride: ""
@@ -104,38 +104,22 @@ basicAuthPass: ""
   # needs APR1-MD5 password 
   # example user test, pass test 
   # "test:$apr1$vbY9pP6j$GruYGP/AoYR1RPQN8KshE."
-env:
-  CLICKHOUSE_SERVER: "localhost"
-  CLICKHOUSE_PORT: "8123"
-  CLICKHOUSE_DB: "qryn"
-  CLICKHOUSE_AUTH: "default:"
-  # CLICKHOUSE_PROTO: "http"
-  # CLICKHOUSE_TIMEFIELD: "record_datetime"
-  # CLUSTER_NAME: ""
-  # BULK_MAXAGE: "2000"
-  # BULK_MAXSIZE: "5000"
-  # BULK_MAXCACHE: "50000"
-  # LABELS_DAYS: "7"
-  # SAMPLES_DAYS: "7"
-  # HOST: "0.0.0.0"
-  # PORT: "3100"
-  # QRYN_LOGIN: ""
-  # QRYN_PASSWORD: ""
-  # READONLY: "false"
-  # OMIT_CREATE_TABLES: "false"
-  # FASTIFY_BODYLIMIT: "5242880"
-  # FASTIFY_REQUESTTIMEOUT: "0"
-  # FASTIFY_MAXREQUESTS: "0"
-  # FASTIFY_METRICS: "false"
-  # ADVANCED_PROMETHEUS_MAX_SAMPLES: "5000000"
-  # CORS_ALLOW_ORIGIN: 	"*"
-  # TEMPO_SPAN: "24"
-  # TEMPO_TAGTRACE: "false"
-  # DEBUG: "false"
-  # LOG_LEVEL: "info"
-  # HASH: "xxhash64"
-  # ALERTMAN_URL: "false"
-  # ADVANCED_SAMPLES_ORDERING: "timestamp_ns"
+# This envs is used to control gigapipe parameters https://gigapipe.com/docs/config.html#parameters.
+env: {}
+# CLICKHOUSE_SERVER: localhost #Clickhouse Server address
+# CLICKHOUSE_PORT: "9000" #Clickhouse Server port (binary)
+# CLICKHOUSE_DB: gigapipe #Clickhouse Database Name
+# CLICKHOUSE_AUTH: default #Clickhouse Authentication (user:password)
+# CLICKHOUSE_PROTO: tcp #Clickhouse Protocol (tcp, tls)
+# CLICKHOUSE_TIMEFIELD: record_datetime #Clickhouse DateTime column for native queries
+# CLUSTER_NAME: undefined #Clickhouse Cluster name
+# STORAGE_POLICY: undefined #Clickhouse Cluster storage policy
+# BULK_MAXAGE: "2000" #Max Age for Bulk Inserts
+# BULK_MAXSIZE: "5000" #Max Size for Bulk Inserts
+# BULK_MAXCACHE: 50000 #Max Labels in Memory Cache
+# LABELS_DAYS: 7 #Max Days before Label rotation
+# SAMPLES_DAYS: 7 #Max Days before Timeseries rotation
+# MODE: all #all, writer, reader, init_only (init db and exit)
 
 # Additional volumes on the output Deployment definition.
 volumes: []

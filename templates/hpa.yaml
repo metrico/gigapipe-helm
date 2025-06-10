@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "qryn-helm.fullname" . }}
+  name: {{ include "gigapipe.fullname" . }}
   labels:
-  {{- include "qryn-helm.labels" . | nindent 4 }}
+  {{- include "gigapipe.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "qryn-helm.fullname" . }}
+    name: {{ include "gigapipe.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

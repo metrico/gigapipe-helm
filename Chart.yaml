@@ -1,6 +1,16 @@
 apiVersion: v2
-appVersion: 3.2.39
+appVersion: 4.0.0
 description: A Helm chart for Kubernetes
-name: qryn-helm
+name: gigapipe
 type: application
-version: 0.1.9
+version: 0.2.0
+
+maintainers:
+  - name: Lorenzo Mangani 
+    email: lorenzo.mangani@gmail.com
+    url: https://gigapipe.com 
+  - name: raven
+    email: r2w5x6@protonmail.com
+    url: https://github.com/mk-raven
+
+
