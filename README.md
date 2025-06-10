@@ -1,4 +1,4 @@
-# Helm Chart for gigapipe
+# Helm Chart for Gigapipe
 <a href="https://gigapipe.com" target="_blank">
   <img src='https://github.com/user-attachments/assets/fc8c7ca9-7a18-403d-b2a6-17899a534d33' style="margin-left:-10px;width:200px;" height=200 >
 </a>
@@ -9,11 +9,11 @@
 
 <img src="https://user-images.githubusercontent.com/1423657/232089970-c4536f16-5967-4051-85a5-8ad94fcde67c.png" height=50>&nbsp; <img src="https://github.com/metrico/qryn/assets/1423657/546faddb-fbc6-4af5-9e32-4db6da10915d" height=49>
 ## Overview
-This Helm chart provides Kubernetes deployment configurations for [qryn](https://github.com/metrico/qryn) a polyglot, lighweight, multi-standard observability framework for Logs, Metrics and Traces, designed to be drop-in compatible with Loki, Prometheus, Tempo and Opentelemetry.
+This Helm chart provides Kubernetes deployment configurations for [gigapipe](https://github.com/metrico/gigapipe) a polyglot, lighweight, multi-standard observability framework for Logs, Metrics , Traces and Profiling designed to be drop-in compatible with Loki, Prometheus, Tempo, Pyroscope + Opentelemetry.
 
 ---
 ## Important !!!
-This project will be use new name <ins>**Gigapipe**</ins> instead of **Qryn** and fully migrated to new one!
+This project has been updated to provide <ins>**Gigapipe**</ins> instead of **qryn**
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
@@ -36,7 +36,7 @@ This project will be use new name <ins>**Gigapipe**</ins> instead of **Qryn** an
 Get Repository Info
 
 ```bash
-helm repo add gigapipe https://metrico.github.io/qryn-helm/
+helm repo add gigapipe https://metrico.github.io/gigapipe-helm/
 helm repo update
 ```
 
@@ -46,7 +46,7 @@ Install Chart
 To deploy [gigapipe](https://github.com/metrico/gigapipe) using this Helm chart, use the following command:
 
 ```bash
-helm repo add gigapipe https://metrico.github.io/qryn-helm/
+helm repo add gigapipe https://metrico.github.io/gigapipe-helm/
 helm install [RELEASE_NAME] gigapipe/gigapipe --version [Helm chart version]
 ```
 
@@ -140,7 +140,7 @@ https://gigapipe.com/docs/config.html#parameters
 |--------------|---------|-------------|
 | `CLICKHOUSE_SERVER` | `localhost` | Clickhouse Server address |
 | `CLICKHOUSE_PORT` | `9000` | Clickhouse Server port (binary) |
-| `CLICKHOUSE_DB` | `qryn` | Clickhouse Database Name |
+| `CLICKHOUSE_DB` | `gigapipe` | Clickhouse Database Name |
 | `CLICKHOUSE_AUTH` | `default:` | Clickhouse Authentication (user:password) |
 | `CLICKHOUSE_PROTO` | `tcp` | Clickhouse Protocol (tcp, tls) |
 | `CLICKHOUSE_TIMEFIELD` | `record_datetime` | Clickhouse DateTime column for native queries |
