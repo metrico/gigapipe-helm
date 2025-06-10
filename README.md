@@ -9,11 +9,8 @@
 
 <img src="https://user-images.githubusercontent.com/1423657/232089970-c4536f16-5967-4051-85a5-8ad94fcde67c.png" height=50>&nbsp; <img src="https://github.com/metrico/qryn/assets/1423657/546faddb-fbc6-4af5-9e32-4db6da10915d" height=49>
 ## Overview
-This Helm chart provides Kubernetes deployment configurations for [gigapipe](https://github.com/metrico/gigapipe) a polyglot, lighweight, multi-standard observability framework for Logs, Metrics , Traces and Profiling designed to be drop-in compatible with Loki, Prometheus, Tempo, Pyroscope + Opentelemetry.
+This Helm chart provides Kubernetes deployment configurations for [gigapipe](https://github.com/metrico/gigapipe) a polyglot, lighweight, multi-standard observability framework for Logs, Metrics , Traces and Profiling designed to be drop-in compatible with Loki, Prometheus, Tempo, Pyroscope + Opentelemetry
 
----
-## Important !!!
-This project has been updated to provide <ins>**Gigapipe**</ins> instead of **qryn**
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
@@ -26,7 +23,7 @@ This project has been updated to provide <ins>**Gigapipe**</ins> instead of **qr
 ## Prerequisites
 - Kubernetes 1.19+
 - Helm 3.7+
-- A running ClickHouse server (optional but recommended)
+- A running ClickHouse server _(optional but recommended)_
 
 
 ---
@@ -181,14 +178,6 @@ Whether it's code, documentation or grammar, we ❤️ all contributions. Not su
 - Have a PR or idea? Request a session / code walkthrough with our team for guidance.
 
 <br>
-
----
-
-#### License
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/AGPLv3_Logo.svg/2560px-AGPLv3_Logo.svg.png" width=200>
-
-©️ HEPVEST BV, All Rights Reserves. Released under the GNU Affero General Public License v3.0
 
 [^1]: Gigapipe is a 100% clear-room api implementation and does not fork, use or derivate from Grafana code or design concepts.[^1]
 
