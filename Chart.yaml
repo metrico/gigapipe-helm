@@ -3,7 +3,7 @@ appVersion: v4.0.14-beta
 description: A Helm chart for Kubernetes
 name: gigapipe
 type: application
-version: 0.2.1
+version: 0.2.2
 
 maintainers:
   - name: Lorenzo Mangani 
