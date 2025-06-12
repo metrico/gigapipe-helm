@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 4.0.14-beta
+appVersion: v4.0.14-beta
 description: A Helm chart for Kubernetes
 name: gigapipe
 type: application
