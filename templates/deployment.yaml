@@ -41,6 +41,18 @@ spec:
           - name: {{ $key }}
             value: "{{ $val }}"
           {{- end }}
+          {{- if not .Values.env.CLICKHOUSE_AUTH }}
+          - name: CLICKHOUSE_AUTH
+            valueFrom:
+              secretKeyRef:
+                name: {{ tpl ((.Values.auth.clickhouse.existingSecret) | default (include "gigapipe.fullname" .)) . }}
+                key: CLICKHOUSE_AUTH
+          {{- end }}
+        {{- if .Values.envRenderSecret }}
+        envFrom:
+          - secretRef:
+              name: {{ include "gigapipe.fullname" . }}-env
+        {{- end }}
         ports:
           - name: http
             containerPort: {{ .Values.service.port }}
