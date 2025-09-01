@@ -2,8 +2,25 @@ apiVersion: v1
 entries:
   gigapipe:
   - apiVersion: v2
+    appVersion: v4.0.19
+    created: "2025-09-01T16:42:12.189723755+03:00"
+    description: A Helm chart for Kubernetes
+    digest: 93aa8aba4b095dfb8944a99623017195f9aabe9c5f394ac741983c3a88f53ad1
+    maintainers:
+    - email: lorenzo.mangani@gmail.com
+      name: Lorenzo Mangani
+      url: https://gigapipe.com
+    - email: r2w5x6@protonmail.com
+      name: raven
+      url: https://github.com/mk-raven
+    name: gigapipe
+    type: application
+    urls:
+    - gigapipe-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v2
     appVersion: v4.0.14-beta
-    created: "2025-06-12T11:00:21.431757116+03:00"
+    created: "2025-09-01T16:42:12.189200836+03:00"
     description: A Helm chart for Kubernetes
     digest: 1fa2a6e58a9ab578d299a2e9df57137a95d3bb462b0eac3a9fa248f204823fe5
     maintainers:
@@ -20,7 +37,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: 4.0.14-beta
-    created: "2025-06-12T11:00:21.431358984+03:00"
+    created: "2025-09-01T16:42:12.188832604+03:00"
     description: A Helm chart for Kubernetes
     digest: aced74fe18261720221000158f34719232cc2825438c6dd0fd1ff736a0de7a68
     maintainers:
@@ -37,7 +54,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: 4.0.0
-    created: "2025-06-12T11:00:21.430938763+03:00"
+    created: "2025-09-01T16:42:12.188376225+03:00"
     description: A Helm chart for Kubernetes
     digest: 66fd159a012d303983b140afad16c4a6fee7e89ca423baff1844b25fa6edab99
     maintainers:
@@ -55,7 +72,7 @@ entries:
   qryn-helm:
   - apiVersion: v2
     appVersion: 3.2.39
-    created: "2025-06-12T11:00:21.436364684+03:00"
+    created: "2025-09-01T16:42:12.194142497+03:00"
     description: A Helm chart for Kubernetes
     digest: 64546697515a81bd45713b19b6db84cb817f41901ef417c6dbe5a48c7662fdb6
     name: qryn-helm
@@ -65,7 +82,7 @@ entries:
     version: 0.1.9
   - apiVersion: v2
     appVersion: 3.2.39
-    created: "2025-06-12T11:00:21.436026032+03:00"
+    created: "2025-09-01T16:42:12.193765574+03:00"
     description: A Helm chart for Kubernetes
     digest: c7c241e248c29bf64d152d1102b5ef69fae4e2928128405ee5229d408f050dfa
     name: qryn-helm
@@ -75,7 +92,7 @@ entries:
     version: 0.1.8
   - apiVersion: v2
     appVersion: 3.2.39
-    created: "2025-06-12T11:00:21.435667956+03:00"
+    created: "2025-09-01T16:42:12.193450888+03:00"
     description: A Helm chart for Kubernetes
     digest: bdef30ff757ce03170f67a1748d214e89a6671c42b1227c611aa9302b299fa20
     name: qryn-helm
@@ -85,7 +102,7 @@ entries:
     version: 0.1.7
   - apiVersion: v2
     appVersion: 3.2.37
-    created: "2025-06-12T11:00:21.435287249+03:00"
+    created: "2025-09-01T16:42:12.193102551+03:00"
     description: A Helm chart for Kubernetes
     digest: ad26c0e25aafa4c7580749ec144cdd943e4c559db8487da9db866e5051500576
     name: qryn-helm
@@ -95,7 +112,7 @@ entries:
     version: 0.1.6
   - apiVersion: v2
     appVersion: 3.2.37
-    created: "2025-06-12T11:00:21.434831632+03:00"
+    created: "2025-09-01T16:42:12.192713191+03:00"
     description: A Helm chart for Kubernetes
     digest: 1d1b07a7e40ab553eee79e486d526065283136be651691a77227ae274c1297b3
     name: qryn-helm
@@ -105,7 +122,7 @@ entries:
     version: 0.1.5
   - apiVersion: v2
     appVersion: 3.2.37
-    created: "2025-06-12T11:00:21.434414913+03:00"
+    created: "2025-09-01T16:42:12.192392458+03:00"
     description: A Helm chart for Kubernetes
     digest: 51fa18e17000f8ea063e3a7b0626aa71bb209ed15fdb6604124452f500d818c9
     name: qryn-helm
@@ -115,7 +132,7 @@ entries:
     version: 0.1.4
   - apiVersion: v2
     appVersion: 3.2.27
-    created: "2025-06-12T11:00:21.432979307+03:00"
+    created: "2025-09-01T16:42:12.192023078+03:00"
     description: A Helm chart for Kubernetes
     digest: 4b11c5a3eccd9ae7a54f1d30d2dc17c5d3fb7ea6816205a8093c028acd1b77f2
     name: qryn-helm
@@ -125,7 +142,7 @@ entries:
     version: 0.1.3
   - apiVersion: v2
     appVersion: 3.2.27
-    created: "2025-06-12T11:00:21.432624744+03:00"
+    created: "2025-09-01T16:42:12.191723244+03:00"
     description: A Helm chart for Kubernetes
     digest: 8b744c1a5893bb07a05a280c866bc41371cf55c562f766afcfaf963edd2863c0
     name: qryn-helm
@@ -135,7 +152,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 3.1.5
-    created: "2025-06-12T11:00:21.432301091+03:00"
+    created: "2025-09-01T16:42:12.191414617+03:00"
     description: A Helm chart for Kubernetes
     digest: 1e984287e6027381742407080a19b084fd1399f32156e598606eeb89541892d7
     name: qryn-helm
@@ -145,7 +162,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 3.0.20
-    created: "2025-06-12T11:00:21.432027555+03:00"
+    created: "2025-09-01T16:42:12.19090356+03:00"
     description: A Helm chart for Kubernetes
     digest: feb4857d295c209288c6fa0e493322ceb2049e2a9c357feee25382cb35ab1117
     name: qryn-helm
@@ -153,4 +170,4 @@ entries:
     urls:
     - qryn-helm-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-12T11:00:21.430293488+03:00"
+generated: "2025-09-01T16:42:12.187464157+03:00"
