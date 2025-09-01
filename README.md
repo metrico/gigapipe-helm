@@ -56,79 +56,133 @@ Feel free to modify the configurations based on your requirements and environmen
 ---
 
 ## Parameters
+## Configuration (Values)
 
-### Global Parameters
-| **Key**                       | **Default**               | **Description**                                        |
-|-------------------------------|---------------------------|------------------------------------------------------|
-| `kubernetesClusterDomain`     | `cluster.local`           | Kubernetes cluster DNS domain.                       |
-   
-### Image Parameters   
-| **Key**                       | **Default**               | **Description**                                        |
-|-------------------------------|---------------------------|------------------------------------------------------|
-| `image.repository`            | `ghcr.io/metrico/gigapipe`| Gigapipe image repository.                           |
-| `image.tag`                   | `""`                      | Gigapipe image tag (default: latest).                |
-| `imagePullSecrets`            | `[]`                      | Secrets for pulling images.                          |
-| `imageCredentials`            | `{}`                      | Custom image registry credentials.                   |
-   
-### Deployment Parameters   
-| **Key**                       | **Default**               | **Description**                                        |
-|-------------------------------|---------------------------|------------------------------------------------------|
-| `replicaCount`                | `1`                       | Number of replicas.                                  |
-| `podAnnotations`              | `{}`                      | Annotations for pods.                                |
-| `podLabels`                   | `{}`                      | Labels for pods.                                     |
-| `resources`                   | *See `values.yaml`*       | Resource requests and limits.                        |
-   
-### Service Parameters   
-| **Key**                       | **Default**               | **Description**                                        |
-|-------------------------------|---------------------------|------------------------------------------------------|
-| `service.type`                | `ClusterIP`               | Service type (e.g., ClusterIP, NodePort, LoadBalancer)|
-| `service.port`                | `3100`                    | Service port.                                        |
-   
-### Probes   
-| **Key**                       | **Default**               | **Description**                                        |
-|-------------------------------|---------------------------|------------------------------------------------------|
-| `livenessProbe`               | `{}`                      | Liveness probe config.                               |
-| `readinessProbe`              | `{}`                      | Readness probe config.                      
-### Ingress Parameters   
-| **Key**                       | **Default**               | **Description**                                        |
-|-------------------------------|---------------------------|------------------------------------------------------|
-| `ingress.enabled`             | `false`                   | Enable ingress.                                      |
-| `ingress.className`           | `""`                      | Ingress class name.                                  |
-| `ingress.annotations`         | `{}`                      | Annotations for ingress.                             |
-| `ingress.hosts`               | *See `values.yaml`*       | Hosts configuration.                                 |
-| `ingress.tls`                 | `[]`                      | TLS configuration.                                   |
-   
-### Autoscaling Parameters   
-| **Key**                       | **Default**               | **Description**                                        |
-|-------------------------------|---------------------------|------------------------------------------------------|
-| `autoscaling.enabled`         | `false`                   | Enable Horizontal Pod Autoscaler.                    |
-| `autoscaling.minReplicas`     | `1`                       | Minimum number of replicas.                          |
-| `autoscaling.maxReplicas`     | `5`                       | Maximum number of replicas.                          |
-| `autoscaling.targetCPUUtilizationPercentage` | `80`       | Target CPU utilization percentage.                   |
-| `autoscaling.targetMemoryUtilizationPercentage` | `80`    | Target memory utilization percentage.                |
-   
-### Environment Variables   
-| **Key**                       | **Default**               | **Description**                                        |
-|-------------------------------|---------------------------|------------------------------------------------------|
-| `env.CLICKHOUSE_SERVER`       | `localhost`               | ClickHouse server address.                           |
-| `env.CLICKHOUSE_PORT`         | `8123`                    | ClickHouse server port.                              |
-| `env.CLICKHOUSE_DB`           | `qryn`                    | ClickHouse database name.                            |
-| `env.CLICKHOUSE_AUTH`         | `default:`                | ClickHouse authentication credentials.               |
-   
-### Security and Service Account   
-| **Key**                       | **Default**               | **Description**                                        |
-|-------------------------------|---------------------------|------------------------------------------------------|
-| `serviceAccount.create`       | `true`                    | Create a ServiceAccount.                             |
-| `serviceAccount.automount`    | `false`                   | Automount API credentials.                           |
-| `serviceAccount.name`         | `""`                      | Custom service account name.                         |
-   
-### Node Affinity and Tolerations   
-| **Key**                       | **Default**               | **Description**                                        |
-|-------------------------------|---------------------------|------------------------------------------------------|
-| `nodeSelector`                | `{}`                      | Node selection constraints.                          |
-| `tolerations`                 | `[]`                      | Toleration rules.                                    |
-| `affinity`                    | `{}`                      | Affinity rules.                                      |
-   
+Below are commonly tuned values. Refer to `values.yaml` for the full list.
+
+### Image
+
+| Key                 | Type   | Default                      | Description          |
+|---------------------|--------|------------------------------|----------------------|
+| `image.repository`  | string | `ghcr.io/metrico/gigapipe`   | Application image    |
+| `image.tag`         | string | `""`                         | Image tag (pin in prod) |
+| `image.pullPolicy`  | string | `IfNotPresent`               | Pull policy          |
+| `imagePullSecrets`  | list   | `[]`                         | Image pull secrets   |
+
+### Deployment & Pod
+
+| Key              | Type | Default | Description                           |
+|------------------|------|---------|---------------------------------------|
+| `replicaCount`   | int  | `1`     | Number of replicas                    |
+| `resources`      | map  | `{}`    | CPU/memory requests & limits          |
+| `nodeSelector`   | map  | `{}`    | Node selector                         |
+| `tolerations`    | list | `[]`    | Tolerations                           |
+| `affinity`       | map  | `{}`    | Affinity                              |
+| `podAnnotations` | map  | `{}`    | Pod annotations                       |
+
+### Service & Ingress
+
+| Key                 | Type   | Default     | Description        |
+|---------------------|--------|-------------|--------------------|
+| `service.type`      | string | `ClusterIP` | Service type       |
+| `service.port`      | int    | `80`        | Service port       |
+| `ingress.enabled`   | bool   | `false`     | Enable Ingress     |
+| `ingress.className` | string | `""`        | Ingress class name |
+| `ingress.hosts`     | list   | `[]`        | Hosts & paths      |
+| `ingress.tls`       | list   | `[]`        | TLS secrets        |
+
+### Environment variables
+
+| Key                    | Type  | Default | Description |
+|------------------------|-------|---------|-------------|
+| `env`                  | map   | `{}`    | Plain environment variables injected directly into the container. Use this for non‑sensitive config. |
+| `envRenderSecret`      | map   | `{}`    | Map of `ENV_NAME: value` pairs that the chart renders into a **Secret** and injects as env vars. Values support Helm templating via `tpl`. See [Rendered Secret](#rendered-secret-envrendersecret). |
+
+### ClickHouse credentials (`auth.clickhouse`)
+
+| Key                              | Type   | Default    | Description |
+|----------------------------------|--------|------------|-------------|
+| `auth.clickhouse.existingSecret` | string | `""`       | Name of an existing Secret containing username/password keys. |
+| `auth.clickhouse.userKey`        | string | `username` | Key in the Secret for the username. |
+| `auth.clickhouse.passwordKey`    | string | `password` | Key in the Secret for the password. |
+
+> The application expects an env var **`CLICKHOUSE_AUTH`** with the value **`user:password`**. You can set it directly in `env` or let the chart compose it from an existing Secret (see below).
+
+---
+
+## Rendered Secret: `envRenderSecret`
+
+Use `envRenderSecret` when you want the chart to **create a Secret for sensitive env vars**. Each map entry becomes a Secret key; the Deployment injects them as env vars.
+
+**Example**
+
+```yaml
+# values.yaml
+envRenderSecret:
+  OAUTH_CLIENT_SECRET: "{{ .Values.oauth.clientSecret }}"  # templated at render time
+  API_TOKEN: "s3cr3t-token"
+```
+
+This produces a Secret (name is chart‑derived) and sets `OAUTH_CLIENT_SECRET` and `API_TOKEN` in the container environment.
+
+> Values are passed through `tpl` internally — you can reference other Helm values like `{{ .Release.Namespace }}`.
+
+---
+
+## ClickHouse credentials (`CLICKHOUSE_AUTH`)
+
+`CLICKHOUSE_AUTH` must be in the form `user:password`. Choose one of the following approaches:
+
+### Option A — Set `CLICKHOUSE_AUTH` directly (simple)
+
+```yaml
+# values.yaml
+env:
+  CLICKHOUSE_SERVER: clickhouse.default.svc
+  CLICKHOUSE_PORT: "8123"
+  CLICKHOUSE_DB: gigapipe
+  CLICKHOUSE_AUTH: "admin:s3cr3t"
+```
+
+### Option B — Compose `CLICKHOUSE_AUTH` from an existing Secret (recommended)
+
+1) Create (or reference) a Secret with **two keys**, e.g. `username` and `password`:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: some-secret
+  namespace: gigapipe
+type: Opaque
+stringData:
+  username: admin
+  password: s3cr3t
+```
+
+Or via kubectl:
+
+```bash
+kubectl -n gigapipe create secret generic some-secret \
+  --from-literal=username=admin \
+  --from-literal=password='s3cr3t'
+```
+
+2) Point the values to that Secret and **omit** `env.CLICKHOUSE_AUTH`. The chart will set `CLICKHOUSE_USER`/`CLICKHOUSE_PASSWORD` from the Secret and compose `CLICKHOUSE_AUTH` as `$(CLICKHOUSE_USER):$(CLICKHOUSE_PASSWORD)`.
+
+```yaml
+# values.yaml
+auth:
+  clickhouse:
+    existingSecret: some-secret
+    userKey: username
+    passwordKey: password
+
+env:
+  CLICKHOUSE_SERVER: clickhouse.default.svc
+  CLICKHOUSE_PORT: "8123"
+  CLICKHOUSE_DB: gigapipe
+```
 
 ## Gigapipe image parameters 
 https://gigapipe.com/docs/config.html#parameters
