@@ -105,9 +105,9 @@ basicAuthPass: ""
   # example user test, pass test 
   # "test:$apr1$vbY9pP6j$GruYGP/AoYR1RPQN8KshE."
 
-auth:
-  clickhouse:
-    existingSecret: ""  #Existing secret name for Clickhouse credentials (CLICKHOUSE_AUTH key)
+# auth:
+#   clickhouse:
+#     existingSecret: ""  #Existing secret name for Clickhouse credentials (CLICKHOUSE_AUTH key)
 # Example secret creation:
 # kubectl create secret generic some-secret --from-literal=CLICKHOUSE_AUTH='default:userpassword' -n yournamespace  
 
