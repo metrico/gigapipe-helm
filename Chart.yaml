@@ -1,9 +1,9 @@
 apiVersion: v2
-appVersion: v4.0.19
+appVersion: v4.0.23
 description: A Helm chart for Kubernetes
 name: gigapipe
 type: application
-version: 0.2.3
+version: 0.2.4
 
 maintainers:
   - name: Lorenzo Mangani 
