@@ -1,0 +1,6 @@
+apiVersion: v2
+name: clickhouse
+description: Minimal single-node ClickHouse for Gigapipe
+type: application
+version: 0.1.0
+appVersion: "25.10.2.65"   # pick stable ClickHouse version

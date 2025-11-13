@@ -128,6 +128,34 @@ env: {}
 # SAMPLES_DAYS: 7 #Max Days before Timeseries rotation
 # MODE: all #all, writer, reader, init_only (init db and exit)
 
+# ClickHouse Configuration
+clickhouse:
+  # Enable embedded ClickHouse subchart
+  embedded: true
+  # ClickHouse connection settings (used when embedded is false or to override defaults)
+  host: ""  # Defaults to gigapipe-clickhouse when embedded is true
+  port: 9000
+  # Auth credentials for ClickHouse
+  auth:
+    username: "default"
+    password: "changeme"
+  # Subchart configuration (only used when embedded is true)
+  replicaCount: 1
+  image:
+    repository: clickhouse/clickhouse-server
+    tag: "25.10"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 9000
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
 envRenderSecret: {}
 # Example:
 # KEY1: "value1"

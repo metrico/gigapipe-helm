@@ -1,0 +1,22 @@
+replicaCount: 1
+
+image:
+  repository: yandex/clickhouse-server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 9000
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+auth:
+  username: "username"
+  password: "password"

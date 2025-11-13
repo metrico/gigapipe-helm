@@ -1,0 +1,50 @@
+{{- if .Values.embedded }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gigapipe-clickhouse
+  labels:
+    app: gigapipe-clickhouse
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: gigapipe-clickhouse
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: gigapipe-clickhouse
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: clickhouse
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 9000
+              name: tcp
+            - containerPort: 8123
+              name: http
+          env:
+            - name: CLICKHOUSE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: gigapipe-clickhouse
+                  key: username
+            - name: CLICKHOUSE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gigapipe-clickhouse
+                  key: password
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+{{- end }}
+
