@@ -13,4 +13,14 @@ maintainers:
     email: r2w5x6@protonmail.com
     url: https://github.com/mk-raven
 
+dependencies:
+  - name: clickhouse
+    version: "0.1.0"
+    repository: "file://charts/clickhouse"
+    condition: clickhouse.embedded
+
+
+
+
+
 

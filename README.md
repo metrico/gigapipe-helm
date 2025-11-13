@@ -98,6 +98,22 @@ Below are commonly tuned values. Refer to `values.yaml` for the full list.
 | `env`                  | map   | `{}`    | Plain environment variables injected directly into the container. Use this for non‑sensitive config. |
 | `envRenderSecret`      | map   | `{}`    | Map of `ENV_NAME: value` pairs that the chart renders into a **Secret** and injects as env vars. Values support Helm templating via `tpl`. See [Rendered Secret](#rendered-secret-envrendersecret). |
 
+### ClickHouse Configuration
+
+| Key                              | Type   | Default              | Description |
+|----------------------------------|--------|----------------------|-------------|
+| `clickhouse.embedded`            | bool   | `true`               | Enable embedded ClickHouse subchart deployment |
+| `clickhouse.host`                | string | `""`                 | External ClickHouse host (used when embedded=false) |
+| `clickhouse.port`                | int    | `9000`               | ClickHouse port |
+| `clickhouse.auth.username`       | string | `"default"`          | ClickHouse username |
+| `clickhouse.auth.password`       | string | `"changeme"`         | ClickHouse password |
+| `clickhouse.replicaCount`        | int    | `1`                  | Number of ClickHouse replicas (subchart only) |
+| `clickhouse.image.repository`    | string | `clickhouse/clickhouse-server` | ClickHouse image repository (subchart only) |
+| `clickhouse.image.tag`           | string | `"23.3"`             | ClickHouse image tag (subchart only) |
+| `clickhouse.resources`           | map    | See values.yaml      | ClickHouse resource requests/limits (subchart only) |
+
+> **Note**: When `clickhouse.embedded=true`, the chart will deploy an embedded ClickHouse instance using the subchart. The Gigapipe deployment will automatically connect to it. When set to `false`, you must provide an external ClickHouse connection via `clickhouse.host`.
+
 ### ClickHouse credentials (`auth.clickhouse`)
 
 | Key                              | Type   | Default    | Description |

@@ -41,12 +41,29 @@ spec:
           - name: {{ $key }}
             value: "{{ $val }}"
           {{- end }}
+          {{- if not .Values.env.CLICKHOUSE_SERVER }}
+          - name: CLICKHOUSE_SERVER
+            value: {{ .Values.clickhouse.embedded | ternary "gigapipe-clickhouse" .Values.clickhouse.host | quote }}
+          {{- end }}
+          {{- if not .Values.env.CLICKHOUSE_PORT }}
+          - name: CLICKHOUSE_PORT
+            value: {{ .Values.clickhouse.port | quote }}
+          {{- end }}
           {{- if not .Values.env.CLICKHOUSE_AUTH }}
           - name: CLICKHOUSE_AUTH
+            {{- if .Values.clickhouse.embedded }}
+            value: "{{ .Values.clickhouse.auth.username }}:{{ .Values.clickhouse.auth.password }}"
+            {{- else if .Values.auth }}
             valueFrom:
               secretKeyRef:
-                name: {{ tpl ((.Values.auth.clickhouse.existingSecret) | default (include "gigapipe.fullname" .)) . }}
+                name: {{ tpl (((.Values.auth).clickhouse).existingSecret | default (include "gigapipe.fullname" .)) . }}
                 key: CLICKHOUSE_AUTH
+            {{- else }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "gigapipe.fullname" . }}
+                key: CLICKHOUSE_AUTH
+            {{- end }}
           {{- end }}
         {{- if .Values.envRenderSecret }}
         envFrom:
