@@ -23,12 +23,30 @@ service:
   type: ClusterIP
   port: 3100
 
-livenessProbe: 
-  httpGet: 
-    path: /metrics 
-    port: http 
+# A TCP check: it keeps working when API authentication is on. With
+# GIGAPIPE_LOGIN and GIGAPIPE_PASSWORD set, every HTTP path, /metrics and
+# /ready included, answers 401 without credentials, so an httpGet probe would
+# fail and restart the pod.
+livenessProbe:
+  tcpSocket:
+    port: http
   initialDelaySeconds: 10 # seconds
   periodSeconds: 10 # seconds
+# Any probe type is accepted. /ready checks the ClickHouse connection.
+# Without API authentication:
+#   httpGet:
+#     path: /ready
+#     port: http
+# With API authentication, an exec probe sends the credentials from the
+# container's own environment, so they never appear in the pod spec:
+#   exec:
+#     command:
+#       - /bin/sh
+#       - -c
+#       - >-
+#         wget -q -O /dev/null -T 4
+#         --header "Authorization: Basic $(printf '%s:%s' "$GIGAPIPE_LOGIN" "$GIGAPIPE_PASSWORD" | base64 | tr -d '\n')"
+#         http://127.0.0.1:3100/ready
 readinessProbe: {}
 
 podAnnotations: {}
@@ -66,13 +84,17 @@ serviceAccount:
   name: ""
 
 podSecurityContext: {}
-securityContext: 
+# Meets the Pod Security "restricted" profile.
+securityContext:
+  allowPrivilegeEscalation: false
   capabilities:
     drop:
     - ALL
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000
+  seccompProfile:
+    type: RuntimeDefault
 
 ingress:
   enabled: false
@@ -97,11 +119,21 @@ basicAuthPass: ""
   # example user test, pass test 
   # "test:$apr1$vbY9pP6j$GruYGP/AoYR1RPQN8KshE."
 
+# ClickHouse credentials from an existing Secret (used when env.CLICKHOUSE_AUTH
+# is not set). Either one key holding user:password:
 # auth:
 #   clickhouse:
-#     existingSecret: ""  #Existing secret name for Clickhouse credentials (CLICKHOUSE_AUTH key)
-# Example secret creation:
-# kubectl create secret generic some-secret --from-literal=CLICKHOUSE_AUTH='default:userpassword' -n yournamespace  
+#     existingSecret: some-secret
+#     authKey: CLICKHOUSE_AUTH        # default
+# kubectl create secret generic some-secret --from-literal=CLICKHOUSE_AUTH='default:userpassword' -n yournamespace
+#
+# or separate user and password keys, composed into CLICKHOUSE_AUTH:
+# auth:
+#   clickhouse:
+#     existingSecret: some-secret
+#     userKey: username               # default
+#     passwordKey: password           # setting it selects this form
+# kubectl create secret generic some-secret --from-literal=username=default --from-literal=password='userpassword' -n yournamespace
 
 # This envs is used to control gigapipe parameters https://gigapipe.com/docs/config.html#parameters.
 env: {}
@@ -121,6 +153,25 @@ env: {}
 # MODE: all #all, writer, reader, init_only (init db and exit)
 
 envRenderSecret: {}
+
+# Extra environment variables as full EnvVar objects, rendered after env and
+# the ClickHouse credentials, so they can use valueFrom and refer to earlier
+# variables with $(NAME). For example, the API login password from a Secret:
+# extraEnv:
+#   - name: GIGAPIPE_LOGIN
+#     value: admin
+#   - name: GIGAPIPE_PASSWORD
+#     valueFrom:
+#       secretKeyRef:
+#         name: gigapipe-api
+#         key: password
+extraEnv: []
+
+# Extra envFrom sources (whole Secrets or ConfigMaps), for example:
+# envFrom:
+#   - secretRef:
+#       name: gigapipe-extra-env
+envFrom: []
 # Example:
 # KEY1: "value1"
 # Additional volumes on the output Deployment definition.

@@ -5,6 +5,28 @@
         "affinity": {
             "type": "object"
         },
+        "auth": {
+            "type": "object",
+            "properties": {
+                "clickhouse": {
+                    "type": "object",
+                    "properties": {
+                        "existingSecret": {
+                            "type": "string"
+                        },
+                        "authKey": {
+                            "type": "string"
+                        },
+                        "userKey": {
+                            "type": "string"
+                        },
+                        "passwordKey": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "autoscaling": {
             "type": "object",
             "properties": {
@@ -31,8 +53,20 @@
         "env": {
             "type": "object"
         },
+        "envFrom": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        },
         "envRenderSecret": {
             "type": "object"
+        },
+        "extraEnv": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
         },
         "fullnameOverride": {
             "type": "string"
