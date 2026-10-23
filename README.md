@@ -97,14 +97,17 @@ Below are commonly tuned values. Refer to `values.yaml` for the full list.
 |------------------------|-------|---------|-------------|
 | `env`                  | map   | `{}`    | Plain environment variables injected directly into the container. Use this for non‑sensitive config. |
 | `envRenderSecret`      | map   | `{}`    | Map of `ENV_NAME: value` pairs that the chart renders into a **Secret** and injects as env vars. Values support Helm templating via `tpl`. See [Rendered Secret](#rendered-secret-envrendersecret). |
+| `extraEnv`             | list  | `[]`    | Extra env vars as full `EnvVar` objects (`valueFrom` included), rendered after `env` and the ClickHouse credentials, so they can refer to earlier variables with `$(NAME)`. |
+| `envFrom`              | list  | `[]`    | Extra `envFrom` sources, e.g. a `secretRef` to an existing Secret. |
 
 ### ClickHouse credentials (`auth.clickhouse`)
 
 | Key                              | Type   | Default    | Description |
 |----------------------------------|--------|------------|-------------|
-| `auth.clickhouse.existingSecret` | string | `""`       | Name of an existing Secret containing username/password keys. |
-| `auth.clickhouse.userKey`        | string | `username` | Key in the Secret for the username. |
-| `auth.clickhouse.passwordKey`    | string | `password` | Key in the Secret for the password. |
+| `auth.clickhouse.existingSecret` | string | `""`       | Name of an existing Secret holding the ClickHouse credentials. |
+| `auth.clickhouse.authKey`        | string | `CLICKHOUSE_AUTH` | Key holding `user:password` (Option C). Used when `passwordKey` is not set. |
+| `auth.clickhouse.userKey`        | string | `username` | Key in the Secret for the username (Option B). |
+| `auth.clickhouse.passwordKey`    | string | unset      | Key in the Secret for the password. Setting it selects Option B. |
 
 > The application expects an env var **`CLICKHOUSE_AUTH`** with the value **`user:password`**. You can set it directly in `env` or let the chart compose it from an existing Secret (see below).
 
@@ -168,7 +171,7 @@ kubectl -n gigapipe create secret generic some-secret \
   --from-literal=password='s3cr3t'
 ```
 
-2) Point the values to that Secret and **omit** `env.CLICKHOUSE_AUTH`. The chart will set `CLICKHOUSE_USER`/`CLICKHOUSE_PASSWORD` from the Secret and compose `CLICKHOUSE_AUTH` as `$(CLICKHOUSE_USER):$(CLICKHOUSE_PASSWORD)`.
+2) Point the values to that Secret, set `passwordKey`, and **omit** `env.CLICKHOUSE_AUTH`. The chart will set `CLICKHOUSE_USER`/`CLICKHOUSE_PASSWORD` from the Secret and compose `CLICKHOUSE_AUTH` as `$(CLICKHOUSE_USER):$(CLICKHOUSE_PASSWORD)`.
 
 ```yaml
 # values.yaml
@@ -183,6 +186,34 @@ env:
   CLICKHOUSE_PORT: "8123"
   CLICKHOUSE_DB: gigapipe
 ```
+
+### Option C — One Secret key holding `user:password`
+
+```yaml
+# values.yaml
+auth:
+  clickhouse:
+    existingSecret: some-secret      # with a CLICKHOUSE_AUTH key
+    # authKey: CLICKHOUSE_AUTH       # the default
+```
+
+## API authentication
+
+Gigapipe's HTTP API is open unless `GIGAPIPE_LOGIN` and `GIGAPIPE_PASSWORD` are set. Keep the password in a Secret with `extraEnv`:
+
+```yaml
+# values.yaml
+extraEnv:
+  - name: GIGAPIPE_LOGIN
+    value: admin
+  - name: GIGAPIPE_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: gigapipe-api
+        key: password
+```
+
+With authentication on, every HTTP path answers `401` without credentials, `/ready` and `/metrics` included. The default liveness probe is therefore a TCP check. For readiness, `values.yaml` shows an `exec` probe that calls `/ready` with the credentials from the container's own environment, so they never appear in the pod spec.
 
 ## Gigapipe image parameters 
 https://gigapipe.com/docs/config.html#parameters

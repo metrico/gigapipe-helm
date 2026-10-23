@@ -39,20 +39,46 @@ spec:
         env:
           {{- range $key, $val := .Values.env }}
           - name: {{ $key }}
-            value: "{{ $val }}"
+            value: {{ $val | toString | quote }}
           {{- end }}
-          {{/* Use secret if CLICKHOUSE_AUTH not set in env */}}
+          {{- /* Take CLICKHOUSE_AUTH from a Secret unless env sets it */}}
           {{- if and (not .Values.env.CLICKHOUSE_AUTH) .Values.auth .Values.auth.clickhouse }}
+          {{- $ch := .Values.auth.clickhouse }}
+          {{- $chSecret := tpl ($ch.existingSecret | default (include "gigapipe.fullname" .)) . }}
+          {{- if $ch.passwordKey }}
+          {{- /* Separate user and password keys: compose user:password from them */}}
+          - name: CLICKHOUSE_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ $chSecret }}
+                key: {{ $ch.userKey | default "username" }}
+          - name: CLICKHOUSE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ $chSecret }}
+                key: {{ $ch.passwordKey }}
+          - name: CLICKHOUSE_AUTH
+            value: "$(CLICKHOUSE_USER):$(CLICKHOUSE_PASSWORD)"
+          {{- else }}
           - name: CLICKHOUSE_AUTH
             valueFrom:
               secretKeyRef:
-                name: {{ tpl ((.Values.auth.clickhouse.existingSecret) | default (include "gigapipe.fullname" .)) . }}
-                key: CLICKHOUSE_AUTH
+                name: {{ $chSecret }}
+                key: {{ $ch.authKey | default "CLICKHOUSE_AUTH" }}
           {{- end }}
-        {{- if .Values.envRenderSecret }}
+          {{- end }}
+          {{- with .Values.extraEnv }}
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
+        {{- if or .Values.envRenderSecret .Values.envFrom }}
         envFrom:
+          {{- if .Values.envRenderSecret }}
           - secretRef:
               name: {{ include "gigapipe.fullname" . }}-env
+          {{- end }}
+          {{- with .Values.envFrom }}
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
         {{- end }}
         ports:
           - name: http
@@ -63,7 +89,7 @@ spec:
         livenessProbe:
           {{- toYaml .Values.livenessProbe | nindent 12 }}
         {{- end }}
-        {{- if and .Values.readinessProbe .Values.readinessProbe.httpGet }}
+        {{- if .Values.readinessProbe }}
         readinessProbe:
           {{- toYaml .Values.readinessProbe | nindent 12 }}
         {{- end }}
